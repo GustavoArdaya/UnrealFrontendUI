@@ -1,0 +1,26 @@
+#################################
+# Unreal Engine Generated Files #
+#################################
+/[Bb]uild
+/[Bb]uilds
+/Binaries
+/DerivedDataCache
+/Intermediate
+/Saved
+
+###################################
+# JetBrains Rider Generated Files #
+###################################
+# Cache Directory
+.idea
+
+# Solution and Project Files
+*.sln
+*.csproj
+*.sln.DotSettings
+*.sln.DotSettings.user
+
+#################################
+# Miscellaneous Generated Files #
+#################################
+# ADD AS NEED BE
