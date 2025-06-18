@@ -46,6 +46,7 @@ void UFrontendUISubsystem::PushSoftWidgetToStackAsync(const FGameplayTag& InWidg
                                                       AsyncPushStateCallback)
 {
 	check(!InSoftWidgetClass.IsNull());
+	
 	UAssetManager::Get().GetStreamableManager().RequestAsyncLoad(
 		InSoftWidgetClass.ToSoftObjectPath(),
 		FStreamableDelegate::CreateLambda(
