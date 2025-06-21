@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CommonTextBlock.h"
+#include "Components/DynamicEntryBox.h"
 #include "Widgets/Widget_ActivatableBase.h"
 #include "FrontendTypes/FrontendEnumTypes.h"
 #include "Widget_ConfirmScreen.generated.h"
@@ -52,6 +54,11 @@ class FRONTENDUI_API UWidget_ConfirmScreen : public UWidget_ActivatableBase
 {
 	GENERATED_BODY()
 
+public:
+
+	// Gets called outside the class when this widget is constructed, and before it's pushed to the modal stack
+	void InitConfirmScreen(UConfirmScreenInfoObject* InScreenInfoObject, TFunction<void(EConfirmScreenButtonType)> ClickedButtonCallback);
+
 private:
 
 	UPROPERTY(meta = (BindWidget))
@@ -64,3 +71,4 @@ private:
 	UDynamicEntryBox* DynamicEntryBox_Buttons;
 	
 };
+
