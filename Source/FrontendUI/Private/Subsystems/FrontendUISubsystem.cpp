@@ -39,7 +39,6 @@ bool UFrontendUISubsystem::ShouldCreateSubsystem(UObject* Outer) const
 void UFrontendUISubsystem::RegisterCreatedPrimaryLayoutWidget(UWidget_PrimaryLayout* InCreatedWidget)
 {
 	check(InCreatedWidget);
-	Debug::Print(TEXT("Primary layout widget stored"));
 	CreatedPrimaryLayout = InCreatedWidget;
 }
 
