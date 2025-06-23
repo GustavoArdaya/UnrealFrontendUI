@@ -27,9 +27,16 @@ public:
 	LIST_DATA_ACCESSOR(TSoftObjectPtr<UTexture2D>, SoftDescriptionImage)
 	LIST_DATA_ACCESSOR(UListDataObject_Base*, ParentData)
 
-	// Empty in the base class. Derived classes have to override to return child data
-	FORCEINLINE virtual TArray<UListDataObject_Base*> GetChildSettingData() const { return TArray<UListDataObject_Base*>(); }
+	void InitDataObject();
 
+	// Empty in the base class. Derived classes have to override these functions
+	FORCEINLINE virtual TArray<UListDataObject_Base*> GetAllChildListData() const { return TArray<UListDataObject_Base*>(); }
+	virtual bool HasAnyChildListData() const { return false; }
+
+protected:
+
+	// Empty in base class. Child should override to handle initialization
+	virtual void OnDataObjectInitialized();
 private:
 
 	FName DataID;
