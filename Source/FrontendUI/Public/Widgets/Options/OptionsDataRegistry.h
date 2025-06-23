@@ -1,0 +1,35 @@
+// Vince Petrelli
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
+#include "OptionsDataRegistry.generated.h"
+
+class UListDataObject_Collection;
+/**
+ * 
+ */
+UCLASS()
+class FRONTENDUI_API UOptionsDataRegistry : public UObject
+{
+	GENERATED_BODY()
+
+public:
+
+	// Is called by options screen after UOptionsDataRegistry is created
+	void InitOptionsDataRegistry(ULocalPlayer* InOwningLocalPlayer);
+
+	FORCEINLINE const TArray<UListDataObject_Collection*>& GetRegisteredOptionsTabCollections() const { return RegisteredOptionsTabCollections; }
+
+private:
+
+	void InitGameplayCollectionTab();
+	void InitAudioCollectionTab();
+	void InitVideoCollectionTab();
+	void InitControlsCollectionTab();
+
+	UPROPERTY(Transient)
+	TArray<UListDataObject_Collection*> RegisteredOptionsTabCollections;
+	
+};
