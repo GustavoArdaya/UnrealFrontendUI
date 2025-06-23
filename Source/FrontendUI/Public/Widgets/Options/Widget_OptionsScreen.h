@@ -6,6 +6,9 @@
 #include "Widgets/Widget_ActivatableBase.h"
 #include "Widget_OptionsScreen.generated.h"
 
+
+class UFrontendTabListWidgetBase;
+class UOptionsDataRegistry;
 /**
  * 
  */
@@ -20,10 +23,27 @@ protected:
 	virtual void NativeOnInitialized() override;
 	//~ End UUserWidget Interface
 
+	//~ Begin UCommonActivatableWidget Interface
+	virtual void NativeOnActivated() override;
+	//~ End UCommonActivatableWidget Interface
+
 private:
+
+	UOptionsDataRegistry* GetOrCreateDataRegistry();
 
 	void OnResetBoundActionTriggered();
 	void OnBackBoundActionTriggered();
+
+	// ******* Bound Widgets ******* //
+	UPROPERTY(meta = (BindWidget))
+	UFrontendTabListWidgetBase* TabListWidget_OptionsTabs;
+
+
+	// ******* Bound Widgets ******* //
+
+	// Will handle creation of data in options screen. Direct access to variable is forbidden
+	UPROPERTY(Transient)
+	UOptionsDataRegistry* CreatedOwningDataRegistry;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Frontend Options Screen", meta = (RowType = "/Script/CommonUI.CommonInputActionDataBase"))
 	FDataTableRowHandle ResetAction;
