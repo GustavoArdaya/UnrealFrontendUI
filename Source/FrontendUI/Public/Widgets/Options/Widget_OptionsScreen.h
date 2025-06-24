@@ -9,6 +9,8 @@
 
 class UFrontendTabListWidgetBase;
 class UOptionsDataRegistry;
+class UFrontendCommonListView;
+
 /**
  * 
  */
@@ -40,6 +42,9 @@ private:
 	// ******* Bound Widgets ******* //
 	UPROPERTY(meta = (BindWidget))
 	UFrontendTabListWidgetBase* TabListWidget_OptionsTabs;
+
+	UPROPERTY(meta = (BindWidget))
+	UFrontendCommonListView* CommonListView_OptionsList;
 
 
 	// ******* Bound Widgets ******* //
