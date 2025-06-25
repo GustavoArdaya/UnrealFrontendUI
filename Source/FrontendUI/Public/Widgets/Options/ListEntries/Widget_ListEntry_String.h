@@ -20,13 +20,13 @@ private:
 
 	// ***** Bound Widgets ***** //
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
-	UFrontendCommonButtonBase* CommonButton_Decrease;
+	UFrontendCommonButtonBase* CommonButton_PreviousOption;
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
 	UFrontendCommonRotator* CommonRotator_AvailableOptions;
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
-	UFrontendCommonButtonBase* CommonButton_Increase;
+	UFrontendCommonButtonBase* CommonButton_NextOption;
 	
 	// ***** Bound Widgets ***** //
 	
