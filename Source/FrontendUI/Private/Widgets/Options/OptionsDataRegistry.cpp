@@ -14,6 +14,22 @@ void UOptionsDataRegistry::InitOptionsDataRegistry(ULocalPlayer* InOwningLocalPl
 	InitControlsCollectionTab();
 }
 
+TArray<UListDataObject_Base*> UOptionsDataRegistry::GetListSourceItemsBySelectedTabID(
+	const FName& InSelectedTabID) const
+{
+	UListDataObject_Collection* const* FoundTabCollectionPtr = RegisteredOptionsTabCollections.FindByPredicate(
+		[InSelectedTabID](UListDataObject_Collection* AvailableTabCollection)->bool
+		{
+			return AvailableTabCollection->GetDataID() == InSelectedTabID;
+		}
+	);
+
+	checkf(FoundTabCollectionPtr, TEXT("No valid Tab found under ID %s"),*InSelectedTabID.ToString());
+
+	const UListDataObject_Collection* FoundTabCollection = *FoundTabCollectionPtr;
+	return FoundTabCollection->GetAllChildListData();
+}
+
 void UOptionsDataRegistry::InitGameplayCollectionTab()
 {
 	UListDataObject_Collection* GameplayTabCollection = NewObject<UListDataObject_Collection>();
