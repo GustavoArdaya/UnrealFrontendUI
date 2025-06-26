@@ -26,8 +26,7 @@ private:
 	UFrontendCommonRotator* CommonRotator_AvailableOptions;
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
-	UFrontendCommonButtonBase* CommonButton_NextOption;
-	
+	UFrontendCommonButtonBase* CommonButton_NextOption;	
 	// ***** Bound Widgets ***** //
 	
 };
