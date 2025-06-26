@@ -26,12 +26,29 @@ void UWidget_ListEntry_String::OnOwningListDataObjectSet(UListDataObject_Base* I
 	CommonRotator_AvailableOptions->SetSelectedOptionByText(CachedOwningStringDataObject->GetCurrentDisplayText());
 }
 
+void UWidget_ListEntry_String::OnOwningListDataObjectModified(UListDataObject_Base* IOwningModifiedDat,
+	EOptionsListDataModifyReason ModifyReason)
+{
+	Super::OnOwningListDataObjectModified(IOwningModifiedDat, ModifyReason);
+	if (CachedOwningStringDataObject)
+	{
+		CommonRotator_AvailableOptions->SetSelectedOptionByText(CachedOwningStringDataObject->GetCurrentDisplayText());
+	}
+		
+}
+
 void UWidget_ListEntry_String::OnPreviousOptionButtonClicked()
 {
-	Debug::Print(TEXT("OnPreviousOptionButtonClicked"));
+	if (CachedOwningStringDataObject)
+	{
+		CachedOwningStringDataObject->GoToPreviousOption();
+	}
 }
 
 void UWidget_ListEntry_String::OnNextOptionButtonClicked()
 {
-	Debug::Print(TEXT("OnNextOptionButtonClicked"));
+	if (CachedOwningStringDataObject)
+	{
+		CachedOwningStringDataObject->GoToNextOption();
+	}
 }
