@@ -31,5 +31,8 @@ protected:
 	TArray<FString> AvailableOptionsStringArray;
 	TArray<FText> AvailableOptionsTextArray;
 	
-	
+public:
+
+	FORCEINLINE const TArray<FText>& GetAvailableOptionsTextArray() const { return AvailableOptionsTextArray; }
+	FORCEINLINE FText GetCurrentDisplayText() const { return CurrentDisplayText; }
 };
