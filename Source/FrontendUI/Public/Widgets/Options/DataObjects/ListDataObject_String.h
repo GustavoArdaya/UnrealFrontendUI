@@ -20,6 +20,12 @@ public:
 
 protected:
 
+	// ~ Begin UListDataObject_Base Interface
+	virtual void OnDataObjectInitialized() override;
+	// ~ End UListDataObject_Base Interface
+
+	bool TrySetDisplayTextFromStringValue(const FString& InStringValue);
+
 	FString CurrentStringValue;
 	FText CurrentDisplayText;
 	TArray<FString> AvailableOptionsStringArray;
