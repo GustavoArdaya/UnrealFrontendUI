@@ -3,6 +3,8 @@
 
 #include "Widgets/Options/DataObjects/ListDataObject_String.h"
 
+#include "Widgets/Options/OptionsDataInteractionHelper.h"
+
 void UListDataObject_String::AddDynamicOption(const FString& InStringValue, const FText& InDisplayText)
 {
 	AvailableOptionsStringArray.Add(InStringValue);
@@ -28,7 +30,11 @@ void UListDataObject_String::GoToNextOption()
 	}
 
 	TrySetDisplayTextFromStringValue(CurrentStringValue);
-	NotifyListDataModified(this);
+	if (DataDynamicSetter.IsValid())
+	{
+		DataDynamicSetter->SetValueFromString(CurrentStringValue);
+		NotifyListDataModified(this);
+	}	
 }
 
 void UListDataObject_String::GoToPreviousOption()
@@ -50,7 +56,11 @@ void UListDataObject_String::GoToPreviousOption()
 	}
 
 	TrySetDisplayTextFromStringValue(CurrentStringValue);
-	NotifyListDataModified(this);
+	if (DataDynamicSetter.IsValid())
+	{
+		DataDynamicSetter->SetValueFromString(CurrentStringValue);
+		NotifyListDataModified(this);
+	}	
 }
 
 void UListDataObject_String::OnDataObjectInitialized()
@@ -60,7 +70,14 @@ void UListDataObject_String::OnDataObjectInitialized()
 		CurrentStringValue = AvailableOptionsStringArray[0];
 	}
 
-	// TODO: Read from saved string value and use it to set currentStringValue
+	if (DataDynamicGetter.IsValid())
+	{
+		if (!DataDynamicGetter->GetValueAsString().IsEmpty())
+		{
+			CurrentStringValue = DataDynamicGetter->GetValueAsString();
+		}
+	}
+	
 	if (!TrySetDisplayTextFromStringValue(CurrentStringValue))
 	{
 		CurrentDisplayText = FText::FromString(TEXT("Invalid Option"));	
