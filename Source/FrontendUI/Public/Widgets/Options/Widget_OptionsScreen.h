@@ -7,6 +7,7 @@
 #include "Widget_OptionsScreen.generated.h"
 
 
+class UWidget_OptionsDetailsView;
 class UFrontendTabListWidgetBase;
 class UOptionsDataRegistry;
 class UFrontendCommonListView;
@@ -43,6 +44,8 @@ private:
 	void OnListViewItemHovered(UObject* InHoveredItem, bool bWasHovered);
 	void OnListViewItemSelected(UObject* InSelectedItem);
 
+	FString TryGetEntryWidgetClassName(UObject* InOwningListItem) const;
+	
 	// ******* Bound Widgets ******* //
 	UPROPERTY(meta = (BindWidget))
 	UFrontendTabListWidgetBase* TabListWidget_OptionsTabs;
@@ -50,6 +53,8 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UFrontendCommonListView* CommonListView_OptionsList;
 
+	UPROPERTY(meta = (BindWidget))
+	UWidget_OptionsDetailsView* DetailsView_ListEntryInfo;
 
 	// ******* Bound Widgets ******* //
 
