@@ -12,7 +12,8 @@
 				"Engine",
 				"CommonUI",
 				"DeveloperSettings",
-				"CoreUObject"
+				"CoreUObject",
+				"UMG"
 			]
 		}
 	],
