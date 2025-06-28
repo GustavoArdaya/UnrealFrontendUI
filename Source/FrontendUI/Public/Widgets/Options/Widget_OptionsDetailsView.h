@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Widget_OptionsDetailsView.generated.h"
 
+class UListDataObject_Base;
 class UCommonTextBlock;
 class UCommonLazyImage;
 class UCommonRichTextBlock;
@@ -16,6 +17,17 @@ UCLASS()
 class FRONTENDUI_API UWidget_OptionsDetailsView : public UUserWidget
 {
 	GENERATED_BODY()
+
+public:
+
+	void UpdateDetailsViewInfo(UListDataObject_Base* InDataObject, const FString& InEntryWidgetClassName = FString());
+	void ClearDetailsViewInfo();
+
+protected:
+
+	// ~ Begin UUserWidget Interface
+	void NativeOnInitialized() override;
+	// ~ End UUserWidget Interface
 
 private:
 
