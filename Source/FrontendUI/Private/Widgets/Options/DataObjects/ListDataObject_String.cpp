@@ -73,6 +73,11 @@ void UListDataObject_String::OnDataObjectInitialized()
 		CurrentStringValue = AvailableOptionsStringArray[0];
 	}
 
+	if (HasDefaultValue())
+	{
+		CurrentStringValue = GetDefaultValueAsString();
+	}
+
 	if (DataDynamicGetter.IsValid())
 	{
 		if (!DataDynamicGetter->GetValueAsString().IsEmpty())
