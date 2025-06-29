@@ -27,9 +27,17 @@ public:
 
 protected:
 
+	// Should be overriden for gamepad iteraction to work
+	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Get Widget To Focus For Gamepad"))
+	UWidget* BP_GetWidgetToFocusForGamepad() const;
+	
 	// ~ Begin IUserObjectListEntry Interface
 	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
 	// ~ End IUserObjectListEntry Interface
+
+	// ~ Begin UUserWidget Interface
+	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
+	// ~ End UUserWidget Interface
 
 	// Child should override method to handle initialization. Super call is expected
 	virtual void OnOwningListDataObjectSet(UListDataObject_Base* InOwningListDataObject);
