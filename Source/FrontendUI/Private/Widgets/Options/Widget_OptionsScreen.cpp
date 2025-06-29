@@ -73,7 +73,7 @@ UOptionsDataRegistry* UWidget_OptionsScreen::GetOrCreateDataRegistry()
 		CreatedOwningDataRegistry->InitOptionsDataRegistry(GetOwningLocalPlayer());
 	}
 
-	checkf(CreatedOwningDataRegistry, TEXT("Data registry for optionss screen is not valid"));
+	checkf(CreatedOwningDataRegistry, TEXT("Data registry for options screen is not valid"));
 
 	return CreatedOwningDataRegistry;
 }
@@ -90,6 +90,8 @@ void UWidget_OptionsScreen::OnBackBoundActionTriggered()
 
 void UWidget_OptionsScreen::OnOptionsTabSelected(FName TabId)
 {
+	DetailsView_ListEntryInfo->ClearDetailsViewInfo();
+	
 	TArray<UListDataObject_Base*> FoundListSourcecItems = GetOrCreateDataRegistry()->GetListSourceItemsBySelectedTabID(TabId);
 	CommonListView_OptionsList->SetListItems(FoundListSourcecItems);
 	CommonListView_OptionsList->RequestRefresh();

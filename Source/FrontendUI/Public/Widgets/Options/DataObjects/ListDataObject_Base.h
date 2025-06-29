@@ -39,6 +39,11 @@ public:
 
 	FORCEINLINE void SetShouldApplySettingsImmediately(bool bShouldApplyRightAway) { bShouldApplyChangeImmediately = bShouldApplyRightAway; }
 
+	// Should be overriden to provide reset data implementation
+	virtual bool HasDefaultValue() const { return false; }
+	virtual bool CanResetBackToDefaultValue() const { return false; }
+	virtual bool TryResetBackToDefaultValue() { return false; }
+
 protected:
 
 	// Empty in base class. Child should override to handle initialization
