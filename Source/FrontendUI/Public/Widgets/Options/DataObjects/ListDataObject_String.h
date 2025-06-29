@@ -19,6 +19,8 @@ public:
 	void AddDynamicOption(const FString& InStringValue, const FText& InDisplayText);
 	void GoToNextOption();
 	void GoToPreviousOption();
+	void OnRotatorInitiatedValueChange(const FText& InNewSelectedText);
+	
 
 protected:
 
