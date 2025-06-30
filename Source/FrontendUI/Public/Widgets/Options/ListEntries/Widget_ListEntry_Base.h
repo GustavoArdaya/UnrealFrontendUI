@@ -33,6 +33,7 @@ protected:
 	
 	// ~ Begin IUserObjectListEntry Interface
 	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
+	virtual void NativeOnEntryReleased() override;
 	// ~ End IUserObjectListEntry Interface
 
 	// ~ Begin UUserWidget Interface
