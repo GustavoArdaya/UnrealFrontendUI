@@ -8,6 +8,7 @@
 #include "FrontendSettings/FrontendGameUserSettings.h"
 #include "Widgets/Options/OptionsDataInteractionHelper.h"
 #include "Widgets/Options/DataObjects/ListDataObject_Collection.h"
+#include "Widgets/Options/DataObjects/ListDataObject_Scalar.h"
 #include "Widgets/Options/DataObjects/ListDataObject_String.h"
 
 #define MAKE_OPTIONS_DATA_CONTROL(SetterOrGetterFuncName) \
@@ -124,13 +125,22 @@ void UOptionsDataRegistry::InitAudioCollectionTab()
 
 		AudioTabCollection->AddChildListData(VolumeCategoryCollection);
 
-		// Test Item for category
+		// Overall Volume
 		{
-			UListDataObject_String* TestItem = NewObject<UListDataObject_String>();
-			TestItem->SetDataID(FName("TestItem"));
-			TestItem->SetDataDisplayName(FText::FromString(TEXT("Test Item")));
+			UListDataObject_Scalar* OverallVolume = NewObject<UListDataObject_Scalar>();
+			OverallVolume->SetDataID(FName("OverallVolume"));
+			OverallVolume->SetDataDisplayName(FText::FromString(TEXT("Overall Volume")));
+			OverallVolume->SetDescriptionRichText(FText::FromString(TEXT("Description for Volume")));
+			OverallVolume->SetDisplayValueRange(TRange<float>(0.f, 1.f));
+			OverallVolume->SetOutputValueRange(TRange<float>(0.f, 2.f));
+			OverallVolume->SetSliderStepSize(0.01f);
+			OverallVolume->SetDefaultValueFromString(LexToString(1.f));
+			OverallVolume->SetDisplayNumericType(ECommonNumericType::Percentage);
+			OverallVolume->SetNumberFormattingOptions(UListDataObject_Scalar::NoDecimal());
 
-			VolumeCategoryCollection->AddChildListData(TestItem);
+			// TODO: Set Data dynamic getter and setter for data object
+
+			VolumeCategoryCollection->AddChildListData(OverallVolume);
 		}
 	}
 

@@ -7,6 +7,7 @@
 #include "Widget_ListEntry_Scalar.generated.h"
 
 
+class UListDataObject_Scalar;
 class UCommonNumericTextBlock;
 class UAnalogSlider;
 
@@ -38,5 +39,8 @@ private:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
 	UAnalogSlider* AnalogSlider_SettingSlider;
 	// ***** Bound Widgets ***** //
+
+	UPROPERTY(Transient)
+	UListDataObject_Scalar* CachedOwningScalarDataObject;
 	
 };
