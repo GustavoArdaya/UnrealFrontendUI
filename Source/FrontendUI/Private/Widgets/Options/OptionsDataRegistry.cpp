@@ -33,8 +33,40 @@ TArray<UListDataObject_Base*> UOptionsDataRegistry::GetListSourceItemsBySelected
 
 	checkf(FoundTabCollectionPtr, TEXT("No valid Tab found under ID %s"),*InSelectedTabID.ToString());
 
-	const UListDataObject_Collection* FoundTabCollection = *FoundTabCollectionPtr;
-	return FoundTabCollection->GetAllChildListData();
+	const UListDataObject_Collection* FoundTabCollection = *FoundTabCollectionPtr;	
+
+	TArray<UListDataObject_Base*> AllChildListItems;
+
+	for (UListDataObject_Base* ChildListData: FoundTabCollection->GetAllChildListData())
+	{
+		if (!ChildListData) continue;
+		AllChildListItems.Add(ChildListData);
+
+		if (ChildListData->HasAnyChildListData())
+		{
+			FindChildListDataRecursively(ChildListData, AllChildListItems);
+		}
+	}
+
+	return AllChildListItems;
+}
+
+void UOptionsDataRegistry::FindChildListDataRecursively(UListDataObject_Base* InParentData,
+	TArray<UListDataObject_Base*>& OutFoundChildListData) const
+{
+	if (!InParentData || !InParentData->HasAnyChildListData()) return;
+
+	for (UListDataObject_Base* SubChildListData: InParentData->GetAllChildListData())
+	{
+		if (!SubChildListData) continue;
+
+		OutFoundChildListData.Add(SubChildListData);
+
+		if (SubChildListData->HasAnyChildListData())
+		{
+			FindChildListDataRecursively(SubChildListData, OutFoundChildListData);
+		}
+	}
 }
 
 void UOptionsDataRegistry::InitGameplayCollectionTab()
