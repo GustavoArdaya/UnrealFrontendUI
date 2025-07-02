@@ -183,16 +183,30 @@ void UOptionsDataRegistry::InitAudioCollectionTab()
 			
 
 			VolumeCategoryCollection->AddChildListData(SoundFXVolume);
-		}
+		}		
+	}
 
-		// Test Item
+	// Sound Category
+	{
+		UListDataObject_Collection* SoundCategoryCollection = NewObject<UListDataObject_Collection>();
+		SoundCategoryCollection->SetDataID(FName("SoundCategoryCollection"));
+		SoundCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Sound")));
+
+		AudioTabCollection->AddChildListData(SoundCategoryCollection);
+
+		// Allow Background Audio
 		{
-			UListDataObject_String* TestItem = NewObject<UListDataObject_String>();
-			TestItem->SetDataID(FName("TestItem"));
-			TestItem->SetDataDisplayName(FText::FromString(TEXT("Test Image Item")));		
-			TestItem->SetSoftDescriptionImage(UFrontendFunctionLibrary::GetOptionsSoftImageByTag(FrontEndGameplayTags::Frontend_Image_TestImage));
-			TestItem->SetDescriptionRichText(FText::FromString(TEXT("The image to display can be specified in the project settings. It can be anything the developer assigned in there")));
-			VolumeCategoryCollection->AddChildListData(TestItem);
+			UListDataObject_StringBool* AllowBackgroundAudio = NewObject<UListDataObject_StringBool>();
+			AllowBackgroundAudio->SetDataID(FName("AllowBackgroundAudio"));
+			AllowBackgroundAudio->SetDataDisplayName(FText::FromString(TEXT("Allow Background Audio")));
+			AllowBackgroundAudio->OverrideTrueDisplayText(FText::FromString(TEXT("Enabled")));
+			AllowBackgroundAudio->OverrideFalseDisplayText(FText::FromString(TEXT("Disabled")));
+			AllowBackgroundAudio->SetFalseAsDefaultValue();
+			AllowBackgroundAudio->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetAllowBackgroundAudio));
+			AllowBackgroundAudio->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetAllowBackgroundAudio));
+			AllowBackgroundAudio->SetShouldApplySettingsImmediately(true);
+
+			SoundCategoryCollection->AddChildListData(AllowBackgroundAudio);
 		}
 	}
 

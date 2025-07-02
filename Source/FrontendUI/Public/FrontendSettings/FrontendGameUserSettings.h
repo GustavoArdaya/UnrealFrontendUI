@@ -42,6 +42,13 @@ public:
 	FORCEINLINE float GetSoundFXVolume() const { return SoundFXVolume; }
 	UFUNCTION()
 	void SetSoundFXVolume(const float InSoundFXVolume);
+
+	UFUNCTION()
+	FORCEINLINE bool GetAllowBackgroundAudio() const { return bAllowBackgroundAudio; }
+	UFUNCTION()
+	void SetAllowBackgroundAudio(bool InAllowBackgroundAudio);
+
+	
 	// ***** Audio Collection Tab ***** //
 private:
 
@@ -59,6 +66,9 @@ private:
 
 	UPROPERTY(Config)
 	float SoundFXVolume;
+
+	UPROPERTY(Config)
+	bool bAllowBackgroundAudio;
 	// ***** Audio Collection Tab ***** //
 	
 };
