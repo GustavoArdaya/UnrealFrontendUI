@@ -27,9 +27,14 @@ public:
 	static FCommonNumberFormattingOptions WithDecimal(int32 NumFracDigit);
 
 	float GetCurrentValue() const;
-	void SetCurrentValueFromSlider(float InValue);
+	void SetCurrentValueFromSlider(float InValue);	
 
 private:
+
+	// ~ Begin UListDataObject_Base Interface	
+	virtual bool CanResetBackToDefaultValue() const override;
+	virtual bool TryResetBackToDefaultValue() override;
+	// ~ End UListDataObject_Base Interface
 
 	float StringToFloat(const FString& InString) const;
 
