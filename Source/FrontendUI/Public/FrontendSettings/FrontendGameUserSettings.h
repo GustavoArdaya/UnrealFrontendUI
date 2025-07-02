@@ -39,9 +39,9 @@ public:
 	void SetMusicVolume(const float InMusicVolume);
 
 	UFUNCTION()
-	FORCEINLINE float GetSFXVolume() const { return SFXVolume; }
+	FORCEINLINE float GetSoundFXVolume() const { return SoundFXVolume; }
 	UFUNCTION()
-	void SetSFXVolume(const float InSFXVolume);
+	void SetSoundFXVolume(const float InSoundFXVolume);
 	// ***** Audio Collection Tab ***** //
 private:
 
@@ -58,7 +58,7 @@ private:
 	float MusicVolume;
 
 	UPROPERTY(Config)
-	float SFXVolume;
+	float SoundFXVolume;
 	// ***** Audio Collection Tab ***** //
 	
 };

@@ -165,24 +165,24 @@ void UOptionsDataRegistry::InitAudioCollectionTab()
 			VolumeCategoryCollection->AddChildListData(MusicVolume);
 		}
 
-		// SFX Volume
+		// SoundFX Volume
 		{
-			UListDataObject_Scalar* SFXVolume = NewObject<UListDataObject_Scalar>();
-			SFXVolume->SetDataID(FName("SFXVolume"));
-			SFXVolume->SetDataDisplayName(FText::FromString(TEXT("SFX Volume")));
-			SFXVolume->SetDescriptionRichText(FText::FromString(TEXT("Description for SFX Volume")));
-			SFXVolume->SetDisplayValueRange(TRange<float>(0.f, 1.f));
-			SFXVolume->SetOutputValueRange(TRange<float>(0.f, 2.f));
-			SFXVolume->SetSliderStepSize(0.01f);
-			SFXVolume->SetDefaultValueFromString(LexToString(1.f));
-			SFXVolume->SetDisplayNumericType(ECommonNumericType::Percentage);
-			SFXVolume->SetNumberFormattingOptions(UListDataObject_Scalar::NoDecimal());
-			SFXVolume->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetSFXVolume));
-			SFXVolume->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetSFXVolume));
-			SFXVolume->SetShouldApplySettingsImmediately(true);
+			UListDataObject_Scalar* SoundFXVolume = NewObject<UListDataObject_Scalar>();
+			SoundFXVolume->SetDataID(FName("SoundFXVolume"));
+			SoundFXVolume->SetDataDisplayName(FText::FromString(TEXT("Sound FX Volume")));
+			SoundFXVolume->SetDescriptionRichText(FText::FromString(TEXT("Description for SoundFX Volume")));
+			SoundFXVolume->SetDisplayValueRange(TRange<float>(0.f, 1.f));
+			SoundFXVolume->SetOutputValueRange(TRange<float>(0.f, 2.f));
+			SoundFXVolume->SetSliderStepSize(0.01f);
+			SoundFXVolume->SetDefaultValueFromString(LexToString(1.f));
+			SoundFXVolume->SetDisplayNumericType(ECommonNumericType::Percentage);
+			SoundFXVolume->SetNumberFormattingOptions(UListDataObject_Scalar::NoDecimal());
+			SoundFXVolume->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetSoundFXVolume));
+			SoundFXVolume->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetSoundFXVolume));
+			SoundFXVolume->SetShouldApplySettingsImmediately(true);
 			
 
-			VolumeCategoryCollection->AddChildListData(SFXVolume);
+			VolumeCategoryCollection->AddChildListData(SoundFXVolume);
 		}
 
 		// Test Item

@@ -4,7 +4,7 @@
 #include "FrontendSettings/FrontendGameUserSettings.h"
 
 UFrontendGameUserSettings::UFrontendGameUserSettings()
-	: OverallVolume(1.f), MusicVolume(1.f), SFXVolume(1.f)
+	: OverallVolume(1.f), MusicVolume(1.f), SoundFXVolume(1.f)
 {
 	
 }
@@ -30,7 +30,7 @@ void UFrontendGameUserSettings::SetMusicVolume(const float InMusicVolume)
 	MusicVolume = InMusicVolume;
 }
 
-void UFrontendGameUserSettings::SetSFXVolume(const float InSFXVolume)
+void UFrontendGameUserSettings::SetSoundFXVolume(const float InSoundFXVolume)
 {
-	SFXVolume = InSFXVolume;
+	SoundFXVolume = InSoundFXVolume;
 }
