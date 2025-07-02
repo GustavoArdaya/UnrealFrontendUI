@@ -144,6 +144,16 @@ void UOptionsDataRegistry::InitAudioCollectionTab()
 
 			VolumeCategoryCollection->AddChildListData(OverallVolume);
 		}
+
+		// Test Item
+		{
+			UListDataObject_String* TestItem = NewObject<UListDataObject_String>();
+			TestItem->SetDataID(FName("TestItem"));
+			TestItem->SetDataDisplayName(FText::FromString(TEXT("Test Image Item")));		
+			TestItem->SetSoftDescriptionImage(UFrontendFunctionLibrary::GetOptionsSoftImageByTag(FrontEndGameplayTags::Frontend_Image_TestImage));
+			TestItem->SetDescriptionRichText(FText::FromString(TEXT("The image to display can be specified in the project settings. It can be anything the developer assigned in there")));
+			VolumeCategoryCollection->AddChildListData(TestItem);
+		}
 	}
 
 	RegisteredOptionsTabCollections.Add(AudioTabCollection);
