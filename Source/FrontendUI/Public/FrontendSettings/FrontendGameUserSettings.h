@@ -32,6 +32,16 @@ public:
 	FORCEINLINE float GetOverallVolume() const { return OverallVolume; }
 	UFUNCTION()
 	void SetOverallVolume(const float InNewVolume);
+
+	UFUNCTION()
+	FORCEINLINE float GetMusicVolume() const { return MusicVolume; }
+	UFUNCTION()
+	void SetMusicVolume(const float InMusicVolume);
+
+	UFUNCTION()
+	FORCEINLINE float GetSFXVolume() const { return SFXVolume; }
+	UFUNCTION()
+	void SetSFXVolume(const float InSFXVolume);
 	// ***** Audio Collection Tab ***** //
 private:
 
@@ -43,6 +53,12 @@ private:
 	// ***** Audio Collection Tab ***** //
 	UPROPERTY(Config)
 	float OverallVolume;
+
+	UPROPERTY(Config)
+	float MusicVolume;
+
+	UPROPERTY(Config)
+	float SFXVolume;
 	// ***** Audio Collection Tab ***** //
 	
 };
