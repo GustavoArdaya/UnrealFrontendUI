@@ -42,7 +42,7 @@ void UListDataObject_StringResolution::OnDataObjectInitialized()
 FString UListDataObject_StringResolution::ResToValueString(const FIntPoint& InResolution) const
 {
 	// Resolution Value from Dynamic Getter: (X=2560,Y=1440)
-	return FString::Printf(TEXT("X=%i,Y=%i)"), InResolution.X, InResolution.Y);
+	return FString::Printf(TEXT("(X=%i,Y=%i)"), InResolution.X, InResolution.Y);
 }
 
 FText UListDataObject_StringResolution::ResToDisplayText(const FIntPoint& InResolution) const
