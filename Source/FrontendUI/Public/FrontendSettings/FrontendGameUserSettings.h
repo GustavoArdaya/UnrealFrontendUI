@@ -51,10 +51,18 @@ public:
 	UFUNCTION()
 	FORCEINLINE bool GetUseHDRAudioMode() const { return bUseHDRAudioMode; }
 	UFUNCTION()
-	void SetUseHDRAudioMode(bool InUseHDRAudioMode);
-
-	
+	void SetUseHDRAudioMode(bool InUseHDRAudioMode);	
 	// ***** Audio Collection Tab ***** //
+
+	// ***** Video Collection Tab ***** //
+	UFUNCTION()
+	float GetCurrentDisplayGamma() const;
+
+	UFUNCTION()
+	void SetCurrentDisplayGamma(const float InDisplayGamma);
+	
+	
+	// ***** Video Collection Tab ***** //	
 private:
 
 	// ***** Gameplay Collection Tab ***** //
