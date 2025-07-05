@@ -300,9 +300,8 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 			WindowModeEditCondition.SetDisabledRichReason(TEXT("\n\n<Disabled>Screen Resolution is not adjustable when in Borderless Window Mode. The value is automatically set at the max allowed resolution.</>"));
 			WindowModeEditCondition.SetDisabledForcedStringValue(ScreenResolution->GetMaxAllowedResolution());
 
-			ScreenResolution->AddEditCondition(WindowModeEditCondition);
-			ScreenResolution->AddEditDependencyData(CreatedWindowMode);
-			
+			ScreenResolution->AddEditCondition(WindowModeEditCondition);			
+			ScreenResolution->AddEditDependencyData(CreatedWindowMode);			
 			
 			DisplayCategoryCollection->AddChildListData(ScreenResolution);
 		}
