@@ -66,6 +66,7 @@ protected:
 	// Should be overriden to specify method of setting current value to forced value
 	virtual void OnSetToForcedStringValue(const FString& InForcedValue) {}
 
+	// Called when the value of dependency data has changed. Child overrides handle custom logic. Super should be called at the end
 	virtual void OnEditDependencyDataModified(UListDataObject_Base* ModifiedDependencyData, EOptionsListDataModifyReason ModifyReason);
 	
 private:
