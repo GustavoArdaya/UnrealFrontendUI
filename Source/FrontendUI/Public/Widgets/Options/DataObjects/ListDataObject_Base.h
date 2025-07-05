@@ -23,6 +23,7 @@ public:
 
 	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnListDataModifiedDelegate, UListDataObject_Base*, EOptionsListDataModifyReason);
 	FOnListDataModifiedDelegate OnListDataModified;
+	FOnListDataModifiedDelegate OnDependencyDataModified;
 
 	LIST_DATA_ACCESSOR(FName, DataID)
 	LIST_DATA_ACCESSOR(FText, DataDisplayName)
@@ -46,6 +47,9 @@ public:
 
 	// Called from OptionsDataRegister for adding in edit conditions for the list data object
 	void AddEditCondition(const FOptionsDataEditConditionDescriptor& InEditCondition);
+	
+	// Called from OptionsDataRegister for adding dependencies between the list data objects
+	void AddEditDependencyData(UListDataObject_Base* InDependencyData);
 
 	bool IsDataCurrentlyEditable();
 
@@ -61,6 +65,8 @@ protected:
 
 	// Should be overriden to specify method of setting current value to forced value
 	virtual void OnSetToForcedStringValue(const FString& InForcedValue) {}
+
+	virtual void OnEditDependencyDataModified(UListDataObject_Base* ModifiedDependencyData, EOptionsListDataModifyReason ModifyReason);
 	
 private:
 
