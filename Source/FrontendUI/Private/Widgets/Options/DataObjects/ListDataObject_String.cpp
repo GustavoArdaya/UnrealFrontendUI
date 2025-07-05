@@ -235,6 +235,8 @@ void UListDataObject_StringInteger::OnEditDependencyDataModified(UListDataObject
 {
 	if (DataDynamicSetter.IsValid())
 	{
+		if (CurrentStringValue == DataDynamicGetter->GetValueAsString()) return; // Prevents circular dependency infinite loop
+		
 		CurrentStringValue = DataDynamicGetter->GetValueAsString();
 		if (!TrySetDisplayTextFromStringValue(CurrentStringValue))
 		{
