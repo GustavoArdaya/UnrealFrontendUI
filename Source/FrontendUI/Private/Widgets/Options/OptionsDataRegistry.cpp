@@ -341,7 +341,7 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 			OverallQuality->SetDataDisplayName(FText::FromString(TEXT("Quality Profile")));
 			OverallQuality->SetDescriptionRichText(FText::FromString(TEXT("Description for Overall Quality Profile")));
 			OverallQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
-			OverallQuality->AddIntegerOption(1, FText::FromString(TEXT("Normal")));
+			OverallQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
 			OverallQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
 			OverallQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
 			OverallQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
@@ -378,7 +378,7 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 			GlobalIlluminationQuality->SetDataDisplayName(FText::FromString(TEXT("Global Illumination")));
 			GlobalIlluminationQuality->SetDescriptionRichText(FText::FromString(TEXT("Description for Global Illumination")));
 			GlobalIlluminationQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
-			GlobalIlluminationQuality->AddIntegerOption(1, FText::FromString(TEXT("Normal")));
+			GlobalIlluminationQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
 			GlobalIlluminationQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
 			GlobalIlluminationQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
 			GlobalIlluminationQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
@@ -398,7 +398,7 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 			ShadowQuality->SetDataDisplayName(FText::FromString(TEXT("Shadow Quality")));
 			ShadowQuality->SetDescriptionRichText(FText::FromString(TEXT("Description for Shadow Quality")));
 			ShadowQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
-			ShadowQuality->AddIntegerOption(1, FText::FromString(TEXT("Normal")));
+			ShadowQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
 			ShadowQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
 			ShadowQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
 			ShadowQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
@@ -418,7 +418,7 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 			AntiAliasingQuality->SetDataDisplayName(FText::FromString(TEXT("Anti Aliasing")));
 			AntiAliasingQuality->SetDescriptionRichText(FText::FromString(TEXT("Description for Anti Aliasing")));
 			AntiAliasingQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
-			AntiAliasingQuality->AddIntegerOption(1, FText::FromString(TEXT("Normal")));
+			AntiAliasingQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
 			AntiAliasingQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
 			AntiAliasingQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
 			AntiAliasingQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
@@ -429,6 +429,106 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 			CreatedOverallQuality->AddEditDependencyData(AntiAliasingQuality); // Circular dependency
 
 			GraphicsCategoryCollection->AddChildListData(AntiAliasingQuality);
+		}
+
+		// View Distance Quality
+		{
+			UListDataObject_StringInteger* ViewDistanceQuality = NewObject<UListDataObject_StringInteger>();
+			ViewDistanceQuality->SetDataID(FName("ViewDistanceQuality"));
+			ViewDistanceQuality->SetDataDisplayName(FText::FromString(TEXT("View Distance")));
+			ViewDistanceQuality->SetDescriptionRichText(FText::FromString(TEXT("Description for View Distance")));
+			ViewDistanceQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			ViewDistanceQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			ViewDistanceQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			ViewDistanceQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			ViewDistanceQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			ViewDistanceQuality->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetViewDistanceQuality));
+			ViewDistanceQuality->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetViewDistanceQuality));
+			ViewDistanceQuality->SetShouldApplySettingsImmediately(true);
+			ViewDistanceQuality->AddEditDependencyData(CreatedOverallQuality);
+			CreatedOverallQuality->AddEditDependencyData(ViewDistanceQuality); // Circular dependency
+
+			GraphicsCategoryCollection->AddChildListData(ViewDistanceQuality);
+		}
+
+		// Texture Quality
+		{
+			UListDataObject_StringInteger* TextureQuality = NewObject<UListDataObject_StringInteger>();
+			TextureQuality->SetDataID(FName("TextureQuality"));
+			TextureQuality->SetDataDisplayName(FText::FromString(TEXT("Texture Quality")));
+			TextureQuality->SetDescriptionRichText(FText::FromString(TEXT("Description for Texture Quality")));
+			TextureQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			TextureQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			TextureQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			TextureQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			TextureQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			TextureQuality->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetTextureQuality));
+			TextureQuality->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetTextureQuality));
+			TextureQuality->SetShouldApplySettingsImmediately(true);
+			TextureQuality->AddEditDependencyData(CreatedOverallQuality);
+			CreatedOverallQuality->AddEditDependencyData(TextureQuality); // Circular dependency
+
+			GraphicsCategoryCollection->AddChildListData(TextureQuality);
+		}
+
+		// Visual Effects Quality
+		{
+			UListDataObject_StringInteger* VisualEffectQuality = NewObject<UListDataObject_StringInteger>();
+			VisualEffectQuality->SetDataID(FName("VisualEffectQuality"));
+			VisualEffectQuality->SetDataDisplayName(FText::FromString(TEXT("Visual Effects Quality")));
+			VisualEffectQuality->SetDescriptionRichText(FText::FromString(TEXT("Description for Visual Effects Quality")));
+			VisualEffectQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			VisualEffectQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			VisualEffectQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			VisualEffectQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			VisualEffectQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			VisualEffectQuality->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetVisualEffectQuality));
+			VisualEffectQuality->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetVisualEffectQuality));
+			VisualEffectQuality->SetShouldApplySettingsImmediately(true);
+			VisualEffectQuality->AddEditDependencyData(CreatedOverallQuality);
+			CreatedOverallQuality->AddEditDependencyData(VisualEffectQuality); // Circular dependency
+
+			GraphicsCategoryCollection->AddChildListData(VisualEffectQuality);
+		}
+
+		// Reflection Quality
+		{
+			UListDataObject_StringInteger* ReflectionQuality = NewObject<UListDataObject_StringInteger>();
+			ReflectionQuality->SetDataID(FName("ReflectionQuality"));
+			ReflectionQuality->SetDataDisplayName(FText::FromString(TEXT("Reflections Quality")));
+			ReflectionQuality->SetDescriptionRichText(FText::FromString(TEXT("Description for Reflections Quality")));
+			ReflectionQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			ReflectionQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			ReflectionQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			ReflectionQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			ReflectionQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			ReflectionQuality->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetReflectionQuality));
+			ReflectionQuality->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetReflectionQuality));
+			ReflectionQuality->SetShouldApplySettingsImmediately(true);
+			ReflectionQuality->AddEditDependencyData(CreatedOverallQuality);
+			CreatedOverallQuality->AddEditDependencyData(ReflectionQuality); // Circular dependency
+
+			GraphicsCategoryCollection->AddChildListData(ReflectionQuality);
+		}
+
+		// PostProcessingQuality
+		{
+			UListDataObject_StringInteger* PostProcessingQuality = NewObject<UListDataObject_StringInteger>();
+			PostProcessingQuality->SetDataID(FName("PostProcessingQuality"));
+			PostProcessingQuality->SetDataDisplayName(FText::FromString(TEXT("Post Processing Quality")));
+			PostProcessingQuality->SetDescriptionRichText(FText::FromString(TEXT("Description for Post Processing Quality")));
+			PostProcessingQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			PostProcessingQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			PostProcessingQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			PostProcessingQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			PostProcessingQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			PostProcessingQuality->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetPostProcessingQuality));
+			PostProcessingQuality->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetPostProcessingQuality));
+			PostProcessingQuality->SetShouldApplySettingsImmediately(true);
+			PostProcessingQuality->AddEditDependencyData(CreatedOverallQuality);
+			CreatedOverallQuality->AddEditDependencyData(PostProcessingQuality); // Circular dependency
+
+			GraphicsCategoryCollection->AddChildListData(PostProcessingQuality);
 		}
 	}
 	
