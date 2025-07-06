@@ -532,6 +532,39 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 		}
 	}
 	
+	// Advanced Graphics Category
+	{
+		UListDataObject_Collection* AdvancedGraphicsCategoryCollection = NewObject<UListDataObject_Collection>();
+		AdvancedGraphicsCategoryCollection->SetDataID(FName("AdvancedGraphicsCategoryCollection"));
+		AdvancedGraphicsCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Advanced Graphics")));
+
+		VideoTabCollection->AddChildListData(AdvancedGraphicsCategoryCollection);
+
+		// Vertical Sync
+		{
+			UListDataObject_StringBool* VerticalSync = NewObject<UListDataObject_StringBool>();
+			VerticalSync->SetDataID(FName("VerticalSync"));
+			VerticalSync->SetDataDisplayName(FText::FromString(TEXT("V-Sync")));
+			VerticalSync->SetDescriptionRichText(FText::FromString(TEXT("Description for Vertical Sync")));
+			VerticalSync->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(IsVSyncEnabled));
+			VerticalSync->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetVSyncEnabled));
+			VerticalSync->SetFalseAsDefaultValue();
+			VerticalSync->SetShouldApplySettingsImmediately(true);
+
+			FOptionsDataEditConditionDescriptor FullscreenOnlyCondition;
+			FullscreenOnlyCondition.SetEditConditionFunc([CreatedWindowMode]()->bool
+			{
+				return CreatedWindowMode->GetCurrentValueAsEnum<EWindowMode::Type>() == EWindowMode::Fullscreen;
+			});
+			FullscreenOnlyCondition.SetDisabledRichReason(TEXT("\n\n<Disabled>This feature is only available in Fullscreen Mode</>"));
+			FullscreenOnlyCondition.SetDisabledForcedStringValue(TEXT("false"));
+
+			VerticalSync->AddEditCondition(FullscreenOnlyCondition);
+
+			AdvancedGraphicsCategoryCollection->AddChildListData(VerticalSync);
+		}
+	}
+	
 
 	RegisteredOptionsTabCollections.Add(VideoTabCollection);
 }
