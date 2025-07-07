@@ -12,6 +12,9 @@
 #include "Widgets/Options/DataObjects/ListDataObject_String.h"
 #include "Widgets/Options/DataObjects/ListDataObject_StringResolution.h"
 #include "Internationalization/StringTableRegistry.h"
+#include "EnhancedInputSubsystems.h"
+#include "FrontendDebugHelper.h"
+#include "UserSettings/EnhancedInputUserSettings.h"
 
 #define MAKE_OPTIONS_DATA_CONTROL(SetterOrGetterFuncName) \
 	MakeShared<FOptionsDataInteractionHelper>(GET_FUNCTION_NAME_STRING_CHECKED(UFrontendGameUserSettings, SetterOrGetterFuncName))
@@ -22,7 +25,7 @@ void UOptionsDataRegistry::InitOptionsDataRegistry(ULocalPlayer* InOwningLocalPl
 	InitGameplayCollectionTab();
 	InitAudioCollectionTab();
 	InitVideoCollectionTab();
-	InitControlsCollectionTab();
+	InitControlsCollectionTab(InOwningLocalPlayer);
 }
 
 TArray<UListDataObject_Base*> UOptionsDataRegistry::GetListSourceItemsBySelectedTabID(
@@ -593,11 +596,47 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 	RegisteredOptionsTabCollections.Add(VideoTabCollection);
 }
 
-void UOptionsDataRegistry::InitControlsCollectionTab()
+void UOptionsDataRegistry::InitControlsCollectionTab(ULocalPlayer* InOwningLocalPlayer)
 {
 	UListDataObject_Collection* ControlsTabCollection = NewObject<UListDataObject_Collection>();
 	ControlsTabCollection->SetDataID(FName("ControlsTabCollection"));
 	ControlsTabCollection->SetDataDisplayName(FText::FromString(TEXT("Controls")));
+	
+	UEnhancedInputLocalPlayerSubsystem* EISubsystem = InOwningLocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+	check(EISubsystem);
+
+	UEnhancedInputUserSettings* EIUserSettings = EISubsystem->GetUserSettings();
+	check(EIUserSettings);
+	
+	// Keyboard Mouse Category
+	{
+		UListDataObject_Collection* KeyboardMouseCategoryCollection = NewObject<UListDataObject_Collection>();
+		ControlsTabCollection->SetDataID(FName("KeyboardMouseCategoryCollection"));
+		ControlsTabCollection->SetDataDisplayName(FText::FromString(TEXT("Keyboard & Mouse")));
+
+		ControlsTabCollection->AddChildListData(KeyboardMouseCategoryCollection);
+
+		// Keyboard mouse inputs
+		{
+			for (const TPair<FString, TObjectPtr<UEnhancedPlayerMappableKeyProfile>>& ProfilePair  :EIUserSettings->GetAllAvailableKeyProfiles())
+			{
+				TObjectPtr<UEnhancedPlayerMappableKeyProfile> MappableKeyProfile = ProfilePair.Value;
+				check(MappableKeyProfile);
+
+				for (const TPair<FName, FKeyMappingRow>& MappingRowPair : MappableKeyProfile->GetPlayerMappingRows())
+				{
+					for (const FPlayerKeyMapping& KeyMapping : MappingRowPair.Value.Mappings)
+					{
+						Debug::Print(
+							TEXT("Mapping Id: ") + KeyMapping.GetMappingName().ToString() +
+							TEXT(" Display Name: ") + KeyMapping.GetDisplayName().ToString() +
+							TEXT(" Bound Key: ") + KeyMapping.GetCurrentKey().GetDisplayName().ToString()
+						);
+					}
+				}
+			}
+		}
+	}
 
 	RegisteredOptionsTabCollections.Add(ControlsTabCollection);
 }
