@@ -642,8 +642,7 @@ void UOptionsDataRegistry::InitControlsCollectionTab(ULocalPlayer* InOwningLocal
 								TEXT(" Display Name: ") + KeyMapping.GetDisplayName().ToString() +
 								TEXT(" Bound Key: ") + KeyMapping.GetCurrentKey().GetDisplayName().ToString()
 							);	
-						}
-						
+						}						
 					}
 				}
 			}
