@@ -22,6 +22,8 @@ public:
 
 	void InitKeyRemapData(UEnhancedInputUserSettings* InOwningInputUserSettings, UEnhancedPlayerMappableKeyProfile* InKeyProfile, ECommonInputType InDesiredInputKeyType, const FPlayerKeyMapping& InOwningPlayerKeyMapping);
 
+	FSlateBrush GetIconFromCurrentKey() const;
+
 private:
 
 	UPROPERTY(Transient)
