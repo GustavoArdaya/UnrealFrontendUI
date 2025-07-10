@@ -4,6 +4,9 @@
 #include "Widgets/Options/ListEntries/Widget_ListEntry_KeyRemap.h"
 
 #include "FrontendDebugHelper.h"
+#include "FrontendFunctionLibrary.h"
+#include "FrontendGameplayTags.h"
+#include "Subsystems/FrontendUISubsystem.h"
 #include "Widgets/Components/FrontendCommonButtonBase.h"
 #include "Widgets/Options/DataObjects/ListDataObject_KeyRemap.h"
 
@@ -36,7 +39,14 @@ void UWidget_ListEntry_KeyRemap::OnOwningListDataObjectModified(UListDataObject_
 
 void UWidget_ListEntry_KeyRemap::OnRemapKeyButtonClicked()
 {
-	Debug::Print(TEXT("Remap Key Button Clicked"));
+	UFrontendUISubsystem::Get(this)->PushSoftWidgetToStackAsync(
+		FrontEndGameplayTags::Frontend_WidgetStack_Modal,
+		UFrontendFunctionLibrary::GetFrontendSoftWidgetClassByTag(FrontEndGameplayTags::Frontend_Widget_KeyRemapScreen),
+		[](EAsyncPushWidgetState PushState, UWidget_ActivatableBase* PushedWidget)
+		{
+			
+		}
+	);
 }
 
 void UWidget_ListEntry_KeyRemap::OnResetKeyBindingButtonClicked()
