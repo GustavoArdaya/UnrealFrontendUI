@@ -3,11 +3,19 @@
 
 #include "Widgets/Options/Widget_KeyRemapScreen.h"
 
+
 #include "FrontendDebugHelper.h"
 #include "Framework/Application/IInputProcessor.h"
 
 class FKeyRemapScreenInputPreprocessor: public IInputProcessor
 {
+
+public:
+
+	FKeyRemapScreenInputPreprocessor(ECommonInputType InInputTypeToListenTo)
+		: CachedInputTypeToListenTo(InInputTypeToListenTo)
+	{}
+	
 protected:
 
 	virtual void Tick(const float DeltaTime, FSlateApplication& SlateApp, TSharedRef<ICursor> Cursor) override
@@ -18,6 +26,9 @@ protected:
 	virtual bool HandleKeyDownEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent) override
 	{
 		Debug::Print(TEXT("Pressed Key:") + InKeyEvent.GetKey().GetDisplayName().ToString());
+
+		UEnum* StaticCommonInputType = StaticEnum<ECommonInputType>();		
+		Debug::Print(TEXT("Desired Input Key Type: " + StaticCommonInputType->GetValueAsString(CachedInputTypeToListenTo)));
 		return true;
 	}
 
@@ -26,13 +37,22 @@ protected:
 		Debug::Print(TEXT("Pressed Key:") + MouseEvent.GetEffectingButton().GetDisplayName().ToString());
 		return true;
 	}
+
+private:
+
+	ECommonInputType CachedInputTypeToListenTo;
 };
+
+void UWidget_KeyRemapScreen::SetDesiredInputTypeToFilter(ECommonInputType InDesiredInputType)
+{
+	CachedDesiredInputType = InDesiredInputType;
+}
 
 void UWidget_KeyRemapScreen::NativeOnActivated()
 {
 	Super::NativeOnActivated();
 
-	CachedInputPreprocessor = MakeShared<FKeyRemapScreenInputPreprocessor>();
+	CachedInputPreprocessor = MakeShared<FKeyRemapScreenInputPreprocessor>(CachedDesiredInputType);
 	FSlateApplication::Get().RegisterInputPreProcessor(CachedInputPreprocessor, -1);
 }
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Widgets/Widget_ActivatableBase.h"
+#include "CommonInputTypeEnum.h"
 #include "Widget_KeyRemapScreen.generated.h"
 
 class UCommonRichTextBlock;
@@ -15,6 +16,10 @@ UCLASS(Abstract, BlueprintType, meta = (DisableNaiveTick))
 class FRONTENDUI_API UWidget_KeyRemapScreen : public UWidget_ActivatableBase
 {
 	GENERATED_BODY()
+
+public:
+
+	void SetDesiredInputTypeToFilter(ECommonInputType InDesiredInputType);
 
 protected:
 
@@ -31,5 +36,7 @@ private:
 	// ***** Bound Widgets ***** //
 
 	TSharedPtr<FKeyRemapScreenInputPreprocessor> CachedInputPreprocessor;
+
+	ECommonInputType CachedDesiredInputType;
 	
 };
