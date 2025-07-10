@@ -21,6 +21,12 @@ public:
 
 	void SetDesiredInputTypeToFilter(ECommonInputType InDesiredInputType);
 
+	DECLARE_DELEGATE_OneParam(FOnKeyRemapScreenKeyPressedDelegate, const FKey& /*PressedKey*/);
+	FOnKeyRemapScreenKeyPressedDelegate OnKeyRemapScreenKeyPressed;
+
+	DECLARE_DELEGATE_OneParam(FOnKeyRemapScreenKeySelectCanceledDelegate, const FString& /*CanceledReason*/);
+	FOnKeyRemapScreenKeySelectCanceledDelegate OnKeyRemapScreenKeySelectCanceled;
+
 protected:
 
 	//~ Begin UCommonActivatableWidget Interface
@@ -32,6 +38,9 @@ private:
 
 	void OnValidKeyPressedDetected(const FKey& PressedKey);
 	void OnKeySelectCanceled(const FString& CanceledReason);
+
+	// Delay tick to make sure the input key is captured before calling PreDeactivateCallback
+	void RequestDeactivateWidget(TFunction<void()> PreDeactivateCallback);
 
 	// ***** Bound Widgets ***** //
 	UPROPERTY(meta = (BindWidget))
