@@ -15,6 +15,12 @@ public:
 	FKeyRemapScreenInputPreprocessor(ECommonInputType InInputTypeToListenTo)
 		: CachedInputTypeToListenTo(InInputTypeToListenTo)
 	{}
+
+	DECLARE_DELEGATE_OneParam(FOnInputPreprocessorKeyPressedDelegate, const FKey& /*PressedKey*/);
+	FOnInputPreprocessorKeyPressedDelegate OnInputPreprocessorKeyPressed;
+
+	DECLARE_DELEGATE_OneParam(FOnInputPreprocessorKeySelectCanceledDelegate, const FString& /*CanceledReason*/);
+	FOnInputPreprocessorKeySelectCanceledDelegate OnInputPreprocessorKeySelectCanceled;
 	
 protected:
 
@@ -25,17 +31,47 @@ protected:
 
 	virtual bool HandleKeyDownEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent) override
 	{
-		Debug::Print(TEXT("Pressed Key:") + InKeyEvent.GetKey().GetDisplayName().ToString());
-
-		UEnum* StaticCommonInputType = StaticEnum<ECommonInputType>();		
-		Debug::Print(TEXT("Desired Input Key Type: " + StaticCommonInputType->GetValueAsString(CachedInputTypeToListenTo)));
+		ProcessPressedKey(InKeyEvent.GetKey());
+		
 		return true;
 	}
 
 	virtual bool HandleMouseButtonDownEvent( FSlateApplication& SlateApp, const FPointerEvent& MouseEvent) override
 	{
-		Debug::Print(TEXT("Pressed Key:") + MouseEvent.GetEffectingButton().GetDisplayName().ToString());
+		ProcessPressedKey(MouseEvent.GetEffectingButton());
 		return true;
+	}
+
+	void ProcessPressedKey(const FKey& InPressedKey)
+	{
+		if (InPressedKey == EKeys::Escape)
+		{
+			OnInputPreprocessorKeySelectCanceled.ExecuteIfBound(TEXT("Key Remap has been canceled"));
+			return;
+		}
+
+		switch (CachedInputTypeToListenTo) {
+		case ECommonInputType::MouseAndKeyboard:
+
+			if (InPressedKey.IsGamepadKey())
+			{
+				OnInputPreprocessorKeySelectCanceled.ExecuteIfBound(TEXT("Gamepad Key pressed for Keyboard/Mouse inputs. Key Remap canceled"));
+				return;
+			}
+			break;
+		case ECommonInputType::Gamepad:
+			if (!InPressedKey.IsGamepadKey())
+			{
+				OnInputPreprocessorKeySelectCanceled.ExecuteIfBound(TEXT("Non-Gamepad Key pressed for Gamepad inputs. Key Remap canceled"));
+				return;
+			}
+			break;
+		default:
+			break;
+		}
+
+		OnInputPreprocessorKeyPressed.ExecuteIfBound(InPressedKey);
+		
 	}
 
 private:
