@@ -24,6 +24,8 @@ public:
 
 	FSlateBrush GetIconFromCurrentKey() const;
 
+	void BindNewInputKey(const FKey& NewInputKey);
+
 private:
 
 	FPlayerKeyMapping* GetOwningKeyMapping() const;
