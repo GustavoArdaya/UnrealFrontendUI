@@ -129,8 +129,7 @@ void UWidget_KeyRemapScreen::OnValidKeyPressedDetected(const FKey& PressedKey)
 {
 	RequestDeactivateWidget(
 		[PressedKey, this]()
-		{
-			Debug::Print(TEXT("Pressed Key: ") + PressedKey.GetDisplayName().ToString());
+		{			
 			OnKeyRemapScreenKeyPressed.ExecuteIfBound(PressedKey);
 		}
 	);
@@ -140,8 +139,7 @@ void UWidget_KeyRemapScreen::OnKeySelectCanceled(const FString& CanceledReason)
 {
 	RequestDeactivateWidget(
 		[CanceledReason, this]()
-		{
-			Debug::Print(TEXT("Canceled Reason: ") + CanceledReason);
+		{			
 			OnKeyRemapScreenKeySelectCanceled.ExecuteIfBound(CanceledReason);
 		}
 	);

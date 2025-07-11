@@ -32,6 +32,9 @@ private:
 	void OnRemapKeyButtonClicked();
 	void OnResetKeyBindingButtonClicked();
 
+	void OnKeyToRemapPressed(const FKey& PressedKey);
+	void OnKeyRemapCanceled(const FString& CanceledReason);
+
 	// ***** Bound Widgets ***** //
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
 	UFrontendCommonButtonBase* CommonButton_RemapKey;
