@@ -40,6 +40,8 @@ void UWidget_ListEntry_KeyRemap::OnOwningListDataObjectModified(UListDataObject_
 
 void UWidget_ListEntry_KeyRemap::OnRemapKeyButtonClicked()
 {
+	SelectThisEntryWidget();
+	
 	UFrontendUISubsystem::Get(this)->PushSoftWidgetToStackAsync(
 		FrontEndGameplayTags::Frontend_WidgetStack_Modal,
 		UFrontendFunctionLibrary::GetFrontendSoftWidgetClassByTag(FrontEndGameplayTags::Frontend_Widget_KeyRemapScreen),
@@ -62,7 +64,38 @@ void UWidget_ListEntry_KeyRemap::OnRemapKeyButtonClicked()
 
 void UWidget_ListEntry_KeyRemap::OnResetKeyBindingButtonClicked()
 {
-	Debug::Print(TEXT("Reset Key Binding Button Clicked"));
+	SelectThisEntryWidget();
+
+	if (!CachedOwningKeyRemapDataObject) return;
+	
+	// Check if current key is already default key. Display OK Screen: "Already default Screen"
+	if (!CachedOwningKeyRemapDataObject->CanResetBackToDefaultValue())
+	{
+		UFrontendUISubsystem::Get(this)->PushConfirmScreenToModalStackAsync(
+			EConfirmScreenType::Ok,
+			FText::FromString(TEXT("Reset Key Mapping")),
+			FText::FromString(TEXT("The Key binding for ") + CachedOwningKeyRemapDataObject->GetDataDisplayName().ToString() +
+				TEXT(" is already set to default value")),
+				[](EConfirmScreenButtonType ClickedButton){}
+		);
+		return;
+	}
+	
+	// Reset key binding back to default
+	UFrontendUISubsystem::Get(this)->PushConfirmScreenToModalStackAsync(
+		EConfirmScreenType::YesNo,
+		FText::FromString(TEXT("Reset Key Mapping")),
+		FText::FromString(TEXT("Are you sure you want to reset key binding for ") + CachedOwningKeyRemapDataObject->GetDataDisplayName().ToString() +
+			TEXT(" ?")),
+		[this](EConfirmScreenButtonType ClickedButton)
+		{
+			if (ClickedButton == EConfirmScreenButtonType::Confirmed)
+			{
+				CachedOwningKeyRemapDataObject->TryResetBackToDefaultValue();
+			}
+		}
+	);
+	
 }
 
 void UWidget_ListEntry_KeyRemap::OnKeyToRemapPressed(const FKey& PressedKey)
