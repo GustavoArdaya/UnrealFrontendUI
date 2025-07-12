@@ -96,10 +96,14 @@ void UWidget_ConfirmScreen::InitConfirmScreen(UConfirmScreenInfoObject* InScreen
 			}
 		);
 	}
+}
 
+UWidget* UWidget_ConfirmScreen::NativeGetDesiredFocusTarget() const
+{
 	if (DynamicEntryBox_Buttons->GetNumEntries() != 0)
 	{
 		// Set focus on the last button ("No" in case of two buttons)
 		DynamicEntryBox_Buttons->GetAllEntries().Last()->SetFocus();
 	}
+	return Super::NativeGetDesiredFocusTarget();
 }
