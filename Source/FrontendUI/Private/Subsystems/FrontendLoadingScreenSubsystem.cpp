@@ -4,6 +4,8 @@
 #include "Subsystems/FrontendLoadingScreenSubsystem.h"
 
 #include "FrontendDebugHelper.h"
+#include "PreLoadScreenManager.h"
+#include "FrontendSettings/FrontendLoadingScreenSettings.h"
 
 bool UFrontendLoadingScreenSubsystem::ShouldCreateSubsystem(UObject* Outer) const
 {
@@ -40,7 +42,7 @@ UWorld* UFrontendLoadingScreenSubsystem::GetTickableGameObjectWorld() const
 
 void UFrontendLoadingScreenSubsystem::Tick(float DeltaTime)
 {
-	Debug::Print(TEXT("Ticking"));
+	TryUpdateLoadingScreen();
 }
 
 ETickableTickType UFrontendLoadingScreenSubsystem::GetTickableTickType() const
@@ -65,10 +67,85 @@ TStatId UFrontendLoadingScreenSubsystem::GetStatId() const
 
 void UFrontendLoadingScreenSubsystem::OnMapPreloaded(const FWorldContext& WorldContext, const FString& MapName)
 {
-	
+	if (WorldContext.OwningGameInstance != GetGameInstance()) return;
+
+	SetTickableTickType(ETickableTickType::Conditional);
+	bIsCurrentlyLoadingMap = true;
+
+	TryUpdateLoadingScreen();
 }
 
 void UFrontendLoadingScreenSubsystem::OnMapPostLoaded(UWorld* LoadedWorld)
 {
+	if (LoadedWorld && LoadedWorld->GetGameInstance() == GetGameInstance())
+	{
+		bIsCurrentlyLoadingMap = false;
+	}
+}
+
+void UFrontendLoadingScreenSubsystem::TryUpdateLoadingScreen()
+{
+	// Check for active startup loading screen
+	if (IsPreLoadScreenActive()) return;
 	
+	if (ShouldDisplayLoadingScreen())
+	{
+		// Check if loading screen should be displayed		
+	}
+	else
+	{
+		// Try to remove active loading screen
+
+		// Notify loading complete
+
+		// Disable ticking
+		SetTickableTickType(ETickableTickType::Never);
+	}	
+}
+
+bool UFrontendLoadingScreenSubsystem::IsPreLoadScreenActive()
+{
+	if (FPreLoadScreenManager* PreLoadScreenManager = FPreLoadScreenManager::Get())
+	{
+		return PreLoadScreenManager->HasValidActivePreLoadScreen();
+	}
+	return false;
+}
+
+bool UFrontendLoadingScreenSubsystem::ShouldDisplayLoadingScreen()
+{
+	const UFrontendLoadingScreenSettings* LoadingScreenSettings = GetDefault<UFrontendLoadingScreenSettings>();
+	if (GIsEditor && !LoadingScreenSettings->bShouldShowLoadingScreenInEditor)
+	{
+		return false;
+	}
+
+	// Check if objects in the world need a loading screen
+	if (CheckIfShowingLoadingScreenNeeded())
+	{
+		GetGameInstance()->GetGameViewportClient()->bDisableWorldRendering = true;
+		return true;
+	}
+	// Allow the world to be rendered in viewport
+	GetGameInstance()->GetGameViewportClient()->bDisableWorldRendering = false;
+
+	const float CurrentTime = FPlatformTime::Seconds();
+
+	if (HoldLoadingScreenStartUpTime < 0.f)
+	{
+		HoldLoadingScreenStartUpTime = CurrentTime;
+	}
+
+	const float ElapsedTime = CurrentTime - HoldLoadingScreenStartUpTime;
+
+	if (ElapsedTime < LoadingScreenSettings->HoldLoadingScreenExtraSeconds)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool UFrontendLoadingScreenSubsystem::CheckIfShowingLoadingScreenNeeded()
+{
 }

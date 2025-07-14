@@ -37,5 +37,17 @@ private:
 
 	UFUNCTION()
 	void OnMapPostLoaded(UWorld*  LoadedWorld);
+
+	void TryUpdateLoadingScreen();
+
+	bool IsPreLoadScreenActive();
+
+	bool ShouldDisplayLoadingScreen();
+
+	bool CheckIfShowingLoadingScreenNeeded();
+
+	bool bIsCurrentlyLoadingMap = false;
+
+	float HoldLoadingScreenStartUpTime = -1.f;
 	
 };
