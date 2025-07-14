@@ -5,6 +5,7 @@
 
 #include "FrontendDebugHelper.h"
 #include "PreLoadScreenManager.h"
+#include "Blueprint/UserWidget.h"
 #include "FrontendSettings/FrontendLoadingScreenSettings.h"
 
 bool UFrontendLoadingScreenSubsystem::ShouldCreateSubsystem(UObject* Outer) const
@@ -91,15 +92,16 @@ void UFrontendLoadingScreenSubsystem::TryUpdateLoadingScreen()
 	if (ShouldDisplayLoadingScreen())
 	{
 		// Check if loading screen should be displayed
+		TryDisplayLoadingScreenIfNone();
 
 		OnLoadingReasonUpdated.Broadcast(CurrentLoadingReason);
 	}
 	else
 	{
 		// Try to remove active loading screen
-
+		TryRemoveLoadingScreen();
 		// Notify loading complete
-
+		HoldLoadingScreenStartUpTime = -1.f;
 		// Disable ticking
 		SetTickableTickType(ETickableTickType::Never);
 	}	
@@ -181,4 +183,31 @@ bool UFrontendLoadingScreenSubsystem::CheckIfShowingLoadingScreenNeeded()
 	// Check if the gamestate, playerstate or playercharacter, actor are ready
 
 	return false;
+}
+
+void UFrontendLoadingScreenSubsystem::TryDisplayLoadingScreenIfNone()
+{
+	// early return if there's an already active loading screen
+	if (CachedCreatedLoadingScreenWidget.IsValid()) return;
+
+	const UFrontendLoadingScreenSettings* LoadingScreenSettings = GetDefault<UFrontendLoadingScreenSettings>();
+	TSubclassOf<UUserWidget> LoadedWidgetClass = LoadingScreenSettings->GetLoadingScreenWidgetClassChecked();
+
+	UUserWidget* CreatedWidget = UUserWidget::CreateWidgetInstance(*GetGameInstance(), LoadedWidgetClass, NAME_None);
+
+	check(CreatedWidget);
+
+	CachedCreatedLoadingScreenWidget = CreatedWidget->TakeWidget();
+	GetGameInstance()->GetGameViewportClient()->AddViewportWidgetContent(
+		CachedCreatedLoadingScreenWidget.ToSharedRef(),
+		1000
+	);
+}
+
+void UFrontendLoadingScreenSubsystem::TryRemoveLoadingScreen()
+{
+	if (!CachedCreatedLoadingScreenWidget.IsValid()) return;
+
+	GetGameInstance()->GetGameViewportClient()->RemoveViewportWidgetContent(CachedCreatedLoadingScreenWidget.ToSharedRef());
+	CachedCreatedLoadingScreenWidget.Reset();
 }
